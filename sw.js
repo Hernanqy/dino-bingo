@@ -1,4 +1,4 @@
-﻿var CACHE_NAME = "bingo-prehistorico-v16";
+﻿var CACHE_NAME = "bingo-prehistorico-v17";
 
 var APP_FILES = [
   "./",
@@ -72,6 +72,7 @@ self.addEventListener("fetch", function (event) {
     })
   );
 });
+
 
 
 

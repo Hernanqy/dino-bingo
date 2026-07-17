@@ -1,0 +1,253 @@
+﻿/* RESPONSIVE V17 */
+
+/* Escritorio y tablets */
+html,
+body {
+    width: 100%;
+    margin: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Teléfonos */
+@media (max-width: 768px) {
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden !important;
+    }
+
+    /* Portada */
+    body #startScreen {
+        width: 100%;
+        height: 100vh !important;
+        min-height: 100vh !important;
+
+        background-position: center center !important;
+        background-size: cover !important;
+    }
+
+    body #startScreen > button {
+        top: 78% !important;
+
+        min-width: min(290px, 82vw) !important;
+        min-height: 52px !important;
+
+        padding: 10px 22px !important;
+        font-size: clamp(16px, 5vw, 20px) !important;
+    }
+
+    /* Pantalla del juego */
+    #gameScreen:not(.hidden) {
+        box-sizing: border-box;
+
+        width: 100%;
+        height: 100vh !important;
+        min-height: 0 !important;
+
+        padding: 6px 8px !important;
+        gap: 4px !important;
+
+        overflow: hidden !important;
+    }
+
+    /* Encabezado */
+    .game-header {
+        width: 100%;
+        min-height: 55px;
+    }
+
+    .game-header h1,
+    .game-title {
+        font-size: clamp(23px, 7vw, 36px) !important;
+        line-height: 0.95 !important;
+        margin: 0 !important;
+    }
+
+    .game-header h2,
+    .game-header p,
+    .progress-text {
+        font-size: clamp(14px, 4vw, 20px) !important;
+        margin: 2px 0 !important;
+    }
+
+    /* Botones de Inicio y Reiniciar */
+    .game-header button,
+    #homeButton,
+    #resetButton {
+        min-width: auto !important;
+        min-height: 38px !important;
+
+        padding: 7px 10px !important;
+        font-size: 11px !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    /* Zona de selección */
+    .selection-stage,
+    .draw-stage,
+    .stage {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+
+        padding: 2px 0 !important;
+        gap: 2px !important;
+
+        overflow: hidden !important;
+    }
+
+    /* Tarjeta seleccionada */
+    .selected-card,
+    #selectedCard,
+    .winner-card,
+    .hero-card,
+    #heroCard,
+    .result-card,
+    #resultCard {
+        width: auto !important;
+        height: min(39vh, 330px) !important;
+
+        max-width: 78vw !important;
+        max-height: 39vh !important;
+
+        margin: 0 auto !important;
+    }
+
+    /* Botón del sorteo */
+    #drawButton,
+    #spinButton,
+    #nextButton,
+    .draw-button,
+    .spin-button,
+    .primary-button {
+        min-width: min(290px, 88vw) !important;
+        min-height: 44px !important;
+
+        margin: 3px auto !important;
+        padding: 8px 15px !important;
+
+        font-size: clamp(13px, 4vw, 17px) !important;
+    }
+
+    /* Historial horizontal */
+    .history-panel,
+    .drawn-cards,
+    .already-drawn {
+        box-sizing: border-box;
+
+        flex: 0 0 130px !important;
+
+        width: 100% !important;
+        min-height: 130px !important;
+        max-height: 130px !important;
+
+        padding: 6px !important;
+        margin: 0 !important;
+
+        overflow: hidden !important;
+    }
+
+    .history-panel h2,
+    .history-panel h3 {
+        height: 25px !important;
+        margin: 0 0 4px !important;
+
+        font-size: 15px !important;
+        line-height: 25px !important;
+    }
+
+    .history-grid,
+    .drawn-grid,
+    .history-slots,
+    .drawn-list {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        gap: 7px !important;
+
+        width: 100% !important;
+        height: 91px !important;
+
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .history-slot,
+    .drawn-slot,
+    .history-item,
+    .drawn-item {
+        box-sizing: border-box;
+
+        flex: 0 0 68px !important;
+
+        width: 68px !important;
+        height: 86px !important;
+        min-height: 0 !important;
+    }
+
+    .history-slot img,
+    .drawn-slot img,
+    .history-item img,
+    .drawn-item img,
+    .history-card,
+    .drawn-card {
+        width: auto !important;
+        height: 82px !important;
+
+        max-width: 66px !important;
+        max-height: 82px !important;
+
+        object-fit: contain !important;
+    }
+}
+
+/* Teléfonos pequeños */
+@media (max-width: 420px) and (max-height: 740px) {
+    .selected-card,
+    #selectedCard,
+    .winner-card,
+    .hero-card,
+    #heroCard,
+    .result-card,
+    #resultCard {
+        height: 33vh !important;
+        max-height: 255px !important;
+    }
+
+    .history-panel,
+    .drawn-cards,
+    .already-drawn {
+        flex-basis: 110px !important;
+        min-height: 110px !important;
+        max-height: 110px !important;
+    }
+
+    .history-grid,
+    .drawn-grid,
+    .history-slots,
+    .drawn-list {
+        height: 73px !important;
+    }
+
+    .history-slot,
+    .drawn-slot,
+    .history-item,
+    .drawn-item {
+        height: 69px !important;
+    }
+
+    .history-slot img,
+    .drawn-slot img,
+    .history-item img,
+    .drawn-item img,
+    .history-card,
+    .drawn-card {
+        height: 65px !important;
+        max-height: 65px !important;
+    }
+}
