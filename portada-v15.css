@@ -1,0 +1,146 @@
+﻿/* PORTADA DINO BINGO V15 */
+
+body #startScreen {
+    position: relative;
+
+    box-sizing: border-box;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: clamp(20px, 4vh, 50px) !important;
+    overflow: hidden !important;
+
+    background:
+        url("./public/portada-dino-bingo-4k.jpg")
+        center center / cover no-repeat
+        !important;
+}
+
+/* Oscurecimiento para leer bien el título */
+body #startScreen::before {
+    content: "" !important;
+    display: block !important;
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(1, 20, 12, 0.15) 0%,
+            rgba(1, 16, 10, 0.35) 55%,
+            rgba(0, 10, 6, 0.55) 100%
+        );
+
+    pointer-events: none;
+    z-index: 0;
+}
+
+body #startScreen > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Quitar la tarjeta de presentación */
+#startScreen .start-card,
+#startScreen .intro-card,
+#startScreen .hero-card,
+#startScreen .card-preview,
+#startScreen .card-showcase,
+#startScreen .decorative-card,
+#startScreen .card-shell,
+#startScreen .card-container {
+    display: none !important;
+}
+
+/* Quitar Bingo educativo */
+#startScreen .eyebrow,
+#startScreen .kicker,
+#startScreen .overline {
+    display: none !important;
+}
+
+/* Título central */
+#startScreen h1,
+#startScreen .main-title,
+#startScreen .hero-title {
+    max-width: 95vw;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    color: #f5b323 !important;
+
+    font-family:
+        "Bowlby One SC",
+        "Bungee",
+        "Copperplate Gothic Bold",
+        "Arial Black",
+        Impact,
+        sans-serif !important;
+
+    font-size: clamp(70px, 10vw, 170px) !important;
+    font-weight: 900 !important;
+    line-height: 0.90 !important;
+    letter-spacing: clamp(2px, 0.5vw, 8px) !important;
+    text-align: center;
+
+    text-transform: uppercase;
+
+    -webkit-text-stroke:
+        clamp(1px, 0.15vw, 3px)
+        #362509;
+
+    text-shadow:
+        0 5px 0 #79500d,
+        0 10px 18px rgba(0,0,0,0.75),
+        0 0 30px rgba(230,167,33,0.20)
+        !important;
+}
+
+/* Subtítulo */
+#startScreen .subtitle,
+#startScreen .hero-subtitle,
+#startScreen > p {
+    max-width: 760px;
+
+    margin: 20px auto 26px !important;
+
+    color: #fff3d0 !important;
+    font-size: clamp(17px, 1.5vw, 25px) !important;
+    line-height: 1.25 !important;
+    text-align: center;
+
+    text-shadow: 0 2px 5px rgba(0,0,0,0.95);
+}
+
+/* Botón de inicio */
+#startScreen button {
+    min-width: min(360px, 88vw);
+    min-height: 58px;
+
+    margin: 4px auto !important;
+    padding: 13px 30px !important;
+
+    font-size: clamp(17px, 1.5vw, 23px) !important;
+}
+
+@media (max-height: 720px) {
+    #startScreen h1,
+    #startScreen .main-title,
+    #startScreen .hero-title {
+        font-size: clamp(60px, 9vw, 125px) !important;
+    }
+
+    #startScreen .subtitle,
+    #startScreen .hero-subtitle,
+    #startScreen > p {
+        margin: 12px auto 16px !important;
+    }
+}

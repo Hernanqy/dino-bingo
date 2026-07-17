@@ -1,0 +1,366 @@
+﻿/* Fondo y distribución final del Bingo Prehistórico */
+
+:root {
+    --margen-vertical: clamp(18px, 3vh, 38px);
+    --margen-horizontal: clamp(14px, 3vw, 52px);
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background:
+        linear-gradient(
+            rgba(0, 25, 14, 0.20),
+            rgba(0, 18, 10, 0.38)
+        ),
+        url("./public/background-prehistorico.jpg")
+        center center / cover fixed no-repeat;
+}
+
+/* Quita las decoraciones anteriores porque ya están incluidas en el fondo */
+body::before,
+body::after {
+    display: none !important;
+}
+
+#app,
+.app,
+.screen,
+#startScreen,
+#gameScreen {
+    background: transparent !important;
+}
+
+.screen {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100vh;
+    padding: var(--margen-vertical) var(--margen-horizontal);
+    overflow-y: auto;
+}
+
+/* Pantalla inicial */
+#startScreen {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding-top: var(--margen-vertical);
+    padding-bottom: var(--margen-vertical);
+}
+
+/* Pantalla del sorteo */
+#gameScreen {
+    box-sizing: border-box;
+    min-height: 100vh;
+    padding-top: var(--margen-vertical);
+    padding-bottom: var(--margen-vertical);
+    gap: clamp(8px, 1.5vh, 18px);
+}
+
+#gameScreen:not(.hidden) {
+    display: flex;
+    flex-direction: column;
+}
+
+.game-header {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+/* Zona central de selección */
+.selection-stage,
+.draw-stage,
+.stage {
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    margin: 0 auto;
+    padding: clamp(6px, 1.4vh, 16px) 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: visible;
+}
+
+/*
+  La tarjeta anterior medía aproximadamente 245 x 307.
+  Ahora puede llegar a 490 x 614: exactamente el doble.
+  Si la pantalla es baja, se reduce automáticamente para no cortarse.
+*/
+.selected-card,
+#selectedCard,
+.winner-card,
+.hero-card,
+#heroCard,
+.result-card,
+#resultCard {
+    box-sizing: border-box;
+
+    width: min(
+        490px,
+        78vw,
+        calc((100vh - 320px) * 0.798)
+    ) !important;
+
+    height: auto !important;
+    aspect-ratio: 245 / 307;
+
+    max-height: calc(100vh - 320px);
+    margin: 0 auto;
+
+    flex: 0 0 auto;
+
+    filter:
+        drop-shadow(0 24px 35px rgba(0, 0, 0, 0.50))
+        drop-shadow(0 0 16px rgba(181, 218, 65, 0.18));
+}
+
+.selected-card .card-inner,
+#selectedCard .card-inner,
+.winner-card .card-inner,
+.hero-card .card-inner,
+#heroCard .card-inner,
+.result-card .card-inner,
+#resultCard .card-inner {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.selected-card .card-face,
+#selectedCard .card-face,
+.winner-card .card-face,
+.hero-card .card-face,
+#heroCard .card-face,
+.result-card .card-face,
+#resultCard .card-face {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.selected-card img,
+#selectedCard img,
+.winner-card img,
+.hero-card img,
+#heroCard img,
+.result-card img,
+#resultCard img,
+.card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Historial de tarjetas sorteadas */
+.history-panel,
+.drawn-cards,
+.already-drawn {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    max-height: min(19vh, 170px);
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow-y: auto;
+}
+
+/* El botón de instalación desaparece completamente */
+#installButton {
+    display: none !important;
+}
+
+/* Ajustes para computadoras con poca altura de pantalla */
+@media (max-height: 820px) {
+    :root {
+        --margen-vertical: 12px;
+    }
+
+    .game-header h1,
+    .game-header h2,
+    .game-header p {
+        margin-top: 0;
+        margin-bottom: 4px;
+    }
+
+    .selection-stage,
+    .draw-stage,
+    .stage {
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    .selected-card,
+    #selectedCard,
+    .winner-card,
+    .hero-card,
+    #heroCard,
+    .result-card,
+    #resultCard {
+        width: min(
+            430px,
+            72vw,
+            calc((100vh - 270px) * 0.798)
+        ) !important;
+
+        max-height: calc(100vh - 270px);
+    }
+
+    .history-panel,
+    .drawn-cards,
+    .already-drawn {
+        max-height: 112px;
+    }
+}
+
+/* Ajustes para pantallas angostas */
+@media (max-width: 680px) {
+    :root {
+        --margen-vertical: 12px;
+        --margen-horizontal: 10px;
+    }
+
+    .selected-card,
+    #selectedCard,
+    .winner-card,
+    .hero-card,
+    #heroCard,
+    .result-card,
+    #resultCard {
+        width: min(
+            92vw,
+            calc((100vh - 280px) * 0.798)
+        ) !important;
+    }
+}
+
+/* CAMBIOS PREHISTORICOS DEFINITIVOS */
+
+html body {
+    background:
+        linear-gradient(rgba(0, 18, 10, 0.08), rgba(0, 15, 8, 0.20)),
+        url("./public/background-prehistorico.jpg")
+        center center / cover fixed no-repeat !important;
+}
+
+#app,
+.app,
+.screen,
+#startScreen,
+#gameScreen,
+main {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+body::before,
+body::after,
+#app::before,
+#app::after,
+.screen::before,
+.screen::after,
+.leaf,
+.decorative-leaf,
+.leaf-decoration,
+.corner-leaves {
+    display: none !important;
+}
+
+/* Eliminar FÓSIL del dorso */
+.card-back span,
+.card-back .fossil,
+.card-back .fossil-label,
+.card-back .back-label {
+    display: none !important;
+}
+
+.card-back::before,
+.card-back::after {
+    content: "" !important;
+    font-size: 0 !important;
+}
+
+.card-back {
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(226, 207, 130, 0.22) 0 7%,
+            transparent 8%
+        ),
+        linear-gradient(145deg, #31451e, #15351d 55%, #092015)
+        !important;
+
+    border: 3px solid #cfb766 !important;
+
+    box-shadow:
+        inset 0 0 0 4px #183d24,
+        inset 0 0 0 6px rgba(239, 220, 155, 0.70),
+        0 14px 25px rgba(0, 0, 0, 0.45)
+        !important;
+}
+
+/* Botones prehistóricos */
+button,
+.button,
+.primary-button,
+.secondary-button {
+    color: #fff2c7 !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #7d7831 0%,
+            #4e6027 48%,
+            #283c1d 100%
+        ) !important;
+
+    border: 3px solid #d8bd68 !important;
+    border-radius: 18px 11px 17px 12px !important;
+
+    box-shadow:
+        inset 0 2px 0 rgba(255,255,255,0.20),
+        inset 0 -5px 0 rgba(20,25,12,0.40),
+        0 5px 0 #5b461d,
+        0 11px 20px rgba(0,0,0,0.38)
+        !important;
+
+    text-shadow: 0 2px 2px rgba(0,0,0,0.85) !important;
+    letter-spacing: 1.2px;
+}
+
+button:hover,
+.button:hover,
+.primary-button:hover,
+.secondary-button:hover {
+    filter: brightness(1.18);
+    transform: translateY(-2px);
+}
+
+/* Botón principal diferente */
+#drawButton,
+#spinButton,
+#nextButton,
+.draw-button,
+.spin-button {
+    color: #17210e !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #e3ca62,
+            #a5a13b 52%,
+            #647625
+        ) !important;
+
+    border-color: #fff0a9 !important;
+    text-shadow: 0 1px rgba(255,255,255,0.45) !important;
+}
+

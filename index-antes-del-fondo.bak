@@ -1,0 +1,135 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1"
+  >
+
+  <meta name="theme-color" content="#031525">
+  <meta name="description" content="Bolillero digital para el Bingo Prehistórico">
+
+  <title>Bingo Prehistórico</title>
+
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./effects.css">
+  <link rel="stylesheet" href="./theme-extinction.css"></head>
+
+<body>
+  <main class="app">
+
+    <section id="startScreen" class="start-screen">
+      <div class="start-content">
+        <p class="eyebrow">BINGO EDUCATIVO</p>
+
+        <h1>Bingo<br>Prehistórico</h1>
+
+        <p class="start-description">
+          Nueve tarjetas. Nueve criaturas.
+          Un sorteo sin repeticiones.
+        </p>
+
+        <div class="start-card" aria-hidden="true">
+          <div class="footprint">◆</div>
+        </div>
+
+        <button id="startButton" class="primary-button" type="button">
+          COMENZAR EL BINGO
+        </button>
+
+        <button id="installButton" class="secondary-button hidden" type="button">
+          INSTALAR APLICACIÓN
+        </button>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="game-screen hidden">
+
+      <header class="game-header">
+        <button id="homeButton" class="home-button" type="button">
+          ⌂ INICIO
+        </button>
+
+        <div class="title-group">
+          <h1>Bingo Prehistórico</h1>
+          <p id="progressText">Tarjeta 1 de 9</p>
+        </div>
+
+        <button id="resetButton" class="reset-button" type="button">
+          REINICIAR
+        </button>
+      </header>
+
+      <section id="selectionStage" class="selection-stage">
+        <p id="stageLabel" class="stage-label">
+          SORTEO DEL BINGO
+        </p>
+
+        <div id="shuffleDeck" class="shuffle-deck" aria-hidden="true">
+          <div class="back-card back-card-1"><span>◆</span></div>
+          <div class="back-card back-card-2"><span>◆</span></div>
+          <div class="back-card back-card-3"><span>◆</span></div>
+          <div class="back-card back-card-4"><span>◆</span></div>
+          <div class="back-card back-card-5"><span>◆</span></div>
+          <div class="back-card back-card-6"><span>◆</span></div>
+          <div class="back-card back-card-7"><span>◆</span></div>
+        </div>
+
+        <div id="selectedCard" class="selected-card">
+          <div class="card-inner">
+
+            <div class="card-face card-back">
+              <span class="back-symbol">◆</span>
+              <span class="back-text">BINGO</span>
+            </div>
+
+            <div class="card-face card-front">
+              <img id="selectedImage" src="" alt="">
+            </div>
+
+          </div>
+        </div>
+
+        <p id="selectionMessage" class="selection-message">
+          Preparando el sorteo...
+        </p>
+      </section>
+
+      <div class="action-area">
+        <button id="drawButton" class="primary-button" type="button">
+          INICIAR SORTEO
+        </button>
+      </div>
+
+      <section class="history-panel">
+        <div class="history-header">
+          <h2>Tarjetas que ya salieron</h2>
+          <strong id="historyCounter">0 / 9</strong>
+        </div>
+
+        <div id="historyGrid" class="history-grid"></div>
+      </section>
+
+      <section id="finishScreen" class="finish-screen hidden">
+        <div class="finish-content">
+          <p class="eyebrow">SORTEO FINALIZADO</p>
+          <h2>¡Bingo completo!</h2>
+          <p>Las nueve tarjetas fueron sorteadas.</p>
+
+          <button id="playAgainButton" class="primary-button" type="button">
+            JUGAR NUEVAMENTE
+          </button>
+        </div>
+      </section>
+
+    </section>
+
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
+
+

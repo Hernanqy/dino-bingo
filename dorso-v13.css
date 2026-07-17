@@ -1,0 +1,55 @@
+﻿/* DORSO PREHISTORICO V13 */
+
+.card-back,
+.mix-card,
+.shuffle-card,
+.deck-card {
+    background-color: #0a2415 !important;
+
+    background-image:
+        url("./public/dorso-tarjeta-prehistorica.jpg")
+        !important;
+
+    background-position: center center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+
+    color: transparent !important;
+    font-size: 0 !important;
+
+    border: none !important;
+    border-radius: 7% !important;
+
+    overflow: hidden !important;
+
+    box-shadow:
+        0 10px 18px rgba(0, 0, 0, 0.42),
+        0 0 9px rgba(216, 188, 92, 0.28)
+        !important;
+}
+
+/* Eliminar definitivamente FÓSIL y cualquier elemento anterior */
+.card-back *,
+.card-back span,
+.card-back p,
+.card-back strong,
+.card-back .fossil,
+.card-back .fossil-label,
+.card-back .back-label,
+.mix-card span,
+.shuffle-card span,
+.deck-card span {
+    display: none !important;
+}
+
+.card-back::before,
+.card-back::after,
+.mix-card::before,
+.mix-card::after,
+.shuffle-card::before,
+.shuffle-card::after,
+.deck-card::before,
+.deck-card::after {
+    display: none !important;
+    content: none !important;
+}

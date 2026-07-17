@@ -1,0 +1,260 @@
+﻿/* DISTRIBUCION COMPACTA V11 */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden !important;
+}
+
+/* Tipografía de aspecto prehistórico */
+body,
+button {
+    font-family:
+        "Copperplate Gothic Bold",
+        "Rockwell Extra Bold",
+        "Arial Black",
+        Impact,
+        sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+.game-title,
+.section-title,
+.result-message,
+#resultMessage {
+    font-family:
+        "Copperplate Gothic Bold",
+        "Rockwell Extra Bold",
+        "Arial Black",
+        Impact,
+        sans-serif !important;
+
+    letter-spacing: 1.5px;
+}
+
+/* Pantallas sin desplazamiento */
+.screen {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100vh !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    padding: 10px 20px !important;
+}
+
+#gameScreen.hidden {
+    display: none !important;
+}
+
+#gameScreen:not(.hidden) {
+    display: flex !important;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Encabezado compacto */
+.game-header {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.game-header h1,
+.game-header h2,
+.game-header p {
+    margin-top: 0 !important;
+    margin-bottom: 2px !important;
+    line-height: 1 !important;
+}
+
+.game-header h1 {
+    font-size: clamp(28px, 4vw, 56px) !important;
+}
+
+/* Área central */
+.selection-stage,
+.draw-stage,
+.stage {
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    min-height: 0 !important;
+    width: 100%;
+    margin: 0 auto !important;
+    padding: 2px 0 !important;
+
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    overflow: hidden !important;
+}
+
+/* Texto Sorteo del bingo: arriba, nunca sobre la tarjeta */
+#gameScreen .eyebrow,
+.stage-title,
+.stage-label,
+.draw-title,
+.selection-title {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+
+    flex: 0 0 auto;
+    margin: 0 0 3px !important;
+    padding: 0 !important;
+
+    line-height: 1 !important;
+    z-index: 1;
+}
+
+/* Tarjeta adaptada a la altura disponible */
+.selected-card,
+#selectedCard,
+.winner-card,
+.hero-card,
+#heroCard,
+.result-card,
+#resultCard {
+    box-sizing: border-box;
+
+    width: auto !important;
+    height: min(46vh, 460px, calc(100vh - 310px)) !important;
+
+    max-width: 78vw !important;
+    max-height: none !important;
+
+    aspect-ratio: 245 / 307;
+    margin: 0 auto !important;
+
+    flex: 0 1 auto;
+
+    filter:
+        drop-shadow(0 13px 20px rgba(0,0,0,0.48))
+        drop-shadow(0 0 12px rgba(199,180,73,0.30));
+}
+
+.selected-card .card-inner,
+#selectedCard .card-inner,
+.winner-card .card-inner,
+.hero-card .card-inner,
+#heroCard .card-inner,
+.result-card .card-inner,
+#resultCard .card-inner {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Resultado siempre debajo de la tarjeta */
+.result-message,
+#resultMessage,
+#resultText,
+.winner-message,
+.selection-result,
+.draw-result {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+
+    flex: 0 0 auto;
+    margin: 4px 0 !important;
+    padding: 0 !important;
+
+    line-height: 1.15 !important;
+    text-align: center;
+    z-index: 5;
+}
+
+/* Botón compacto */
+#drawButton,
+#spinButton,
+#nextButton,
+.draw-button,
+.spin-button,
+.primary-button {
+    flex: 0 0 auto;
+    min-height: 48px !important;
+    margin: 2px auto 5px !important;
+    padding: 10px 28px !important;
+
+    font-size: clamp(15px, 1.6vw, 22px) !important;
+    line-height: 1 !important;
+}
+
+/* Historial visible sin ocupar demasiada altura */
+.history-panel,
+.drawn-cards,
+.already-drawn {
+    box-sizing: border-box;
+    flex: 0 0 min(18vh, 150px) !important;
+    min-height: 90px;
+    max-height: min(18vh, 150px) !important;
+
+    margin: 0 !important;
+    padding: 8px 12px !important;
+
+    overflow: hidden !important;
+}
+
+.history-panel h2,
+.history-panel h3,
+.drawn-cards h2,
+.drawn-cards h3 {
+    margin: 0 0 5px !important;
+    line-height: 1 !important;
+}
+
+/* Eliminar completamente FÓSIL */
+.card-back {
+    color: transparent !important;
+    font-size: 0 !important;
+}
+
+.card-back *,
+.card-back span,
+.card-back p,
+.card-back strong {
+    visibility: hidden !important;
+}
+
+.card-back::before,
+.card-back::after {
+    content: "" !important;
+    font-size: 0 !important;
+}
+
+/* Pantallas de poca altura */
+@media (max-height: 760px) {
+    .screen {
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+    }
+
+    .game-header h1 {
+        font-size: clamp(25px, 3.5vw, 43px) !important;
+    }
+
+    .selected-card,
+    #selectedCard,
+    .winner-card,
+    .hero-card,
+    #heroCard,
+    .result-card,
+    #resultCard {
+        height: min(40vh, calc(100vh - 285px)) !important;
+    }
+
+    .history-panel,
+    .drawn-cards,
+    .already-drawn {
+        flex-basis: 14vh !important;
+        min-height: 75px;
+        max-height: 14vh !important;
+    }
+}

@@ -1,0 +1,161 @@
+﻿/* AJUSTES V12 */
+
+/* No mostrar mensajes redundantes */
+.result-message,
+#resultMessage,
+#resultText,
+.winner-message,
+.selection-result,
+.draw-result,
+.selected-message,
+.card-result-message {
+    display: none !important;
+}
+
+/* Ocultar el espacio del título Sorteo del bingo */
+.stage-title,
+.stage-label,
+.draw-title,
+.selection-title,
+.stage-eyebrow {
+    display: none !important;
+}
+
+/* Aprovechar el espacio liberado */
+.selection-stage,
+.draw-stage,
+.stage {
+    gap: 2px !important;
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+}
+
+/* Panel de tarjetas sorteadas */
+.history-panel,
+.drawn-cards,
+.already-drawn {
+    box-sizing: border-box;
+
+    flex: 0 0 155px !important;
+    width: min(100%, 1500px);
+    min-height: 155px !important;
+    max-height: 155px !important;
+
+    margin: 0 auto !important;
+    padding: 8px 12px 10px !important;
+
+    overflow: hidden !important;
+}
+
+/* Encabezado del historial */
+.history-panel h2,
+.history-panel h3,
+.drawn-cards h2,
+.drawn-cards h3 {
+    height: 29px;
+    margin: 0 0 5px !important;
+    padding: 0 !important;
+
+    font-size: clamp(17px, 1.5vw, 27px) !important;
+    line-height: 29px !important;
+}
+
+/* Fila de nueve lugares */
+.history-grid,
+.drawn-grid,
+.history-slots,
+.drawn-list {
+    box-sizing: border-box;
+
+    display: grid !important;
+    grid-template-columns: repeat(9, minmax(0, 1fr)) !important;
+    gap: clamp(5px, 0.7vw, 12px) !important;
+
+    width: 100%;
+    height: 101px !important;
+    min-height: 0 !important;
+
+    align-items: center !important;
+    overflow: hidden !important;
+}
+
+/* Cada lugar del historial */
+.history-slot,
+.drawn-slot,
+.history-item,
+.drawn-item {
+    box-sizing: border-box;
+
+    width: 100% !important;
+    height: 101px !important;
+    min-height: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
+}
+
+/* Tarjetas pequeñas completas, sin cortes */
+.history-slot img,
+.drawn-slot img,
+.history-item img,
+.drawn-item img,
+.history-card,
+.drawn-card,
+.history-grid img,
+.drawn-grid img {
+    display: block !important;
+
+    width: auto !important;
+    height: 95px !important;
+
+    max-width: 100% !important;
+    max-height: 95px !important;
+
+    object-fit: contain !important;
+    object-position: center center !important;
+
+    margin: auto !important;
+}
+
+/* Evitar que estilos anteriores agranden la miniatura */
+.history-card .card-inner,
+.drawn-card .card-inner {
+    width: auto !important;
+    height: 95px !important;
+    aspect-ratio: 245 / 307;
+}
+
+/* Pantallas con menos altura */
+@media (max-height: 760px) {
+    .history-panel,
+    .drawn-cards,
+    .already-drawn {
+        flex-basis: 125px !important;
+        min-height: 125px !important;
+        max-height: 125px !important;
+    }
+
+    .history-grid,
+    .drawn-grid,
+    .history-slots,
+    .drawn-list,
+    .history-slot,
+    .drawn-slot,
+    .history-item,
+    .drawn-item {
+        height: 75px !important;
+    }
+
+    .history-slot img,
+    .drawn-slot img,
+    .history-item img,
+    .drawn-item img,
+    .history-card,
+    .drawn-card {
+        height: 70px !important;
+        max-height: 70px !important;
+    }
+}
