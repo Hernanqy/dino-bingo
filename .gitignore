@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.vercel/
+.vercel-static/
+*.exe
+*.bak
+*.log

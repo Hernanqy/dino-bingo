@@ -1,0 +1,34 @@
+{
+  "name": "dino-bingo",
+  "version": "1.0.0",
+  "description": "Bingo educativo prehistorico",
+  "author": "Hernanqy",
+  "main": "electron-main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "portable": "electron-builder --win portable --x64",
+    "portable32": "electron-builder --win portable --ia32"
+  },
+  "devDependencies": {
+    "electron": "22.3.27",
+    "electron-builder": "24.13.3"
+  },
+  "build": {
+    "appId": "ar.edu.dinobingo",
+    "productName": "Dino Bingo",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!*.bak",
+      "!node_modules/.cache/**"
+    ],
+    "win": {
+      "target": "portable",
+      "artifactName": "Dino-Bingo-${arch}.${ext}"
+    }
+  }
+}

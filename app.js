@@ -1,57 +1,24 @@
-﻿(function () {
+(function () {
   "use strict";
 
   var cards = [
-    {
-      id: 1,
-      name: "Argentinosaurus",
-      image: "./public/cards/b1.png"
-    },
-    {
-      id: 2,
-      name: "Carnotaurus",
-      image: "./public/cards/b2.png"
-    },
-    {
-      id: 3,
-      name: "Giganotosaurus",
-      image: "./public/cards/b3.png"
-    },
-    {
-      id: 4,
-      name: "Aristonectes",
-      image: "./public/cards/b4.png"
-    },
-    {
-      id: 5,
-      name: "Aerotitan",
-      image: "./public/cards/b5.png"
-    },
-    {
-      id: 6,
-      name: "Pliosaur",
-      image: "./public/cards/b6.png"
-    },
-    {
-      id: 7,
-      name: "Pterodactilo",
-      image: "./public/cards/b7.png"
-    },
-    {
-      id: 8,
-      name: "Tethyshadros",
-      image: "./public/cards/b8.png"
-    },
-    {
-      id: 9,
-      name: "Tylosaurus",
-      image: "./public/cards/b9.png"
-    }
+    { id: 1, name: "Argentinosaurus", image: "./public/cards/b1.png" },
+    { id: 2, name: "Carnotaurus", image: "./public/cards/b2.png" },
+    { id: 3, name: "Giganotosaurus", image: "./public/cards/b3.png" },
+    { id: 4, name: "Aristonectes", image: "./public/cards/b4.png" },
+    { id: 5, name: "Aerotitan", image: "./public/cards/b5.png" },
+    { id: 6, name: "Pliosaur", image: "./public/cards/b6.png" },
+    { id: 7, name: "Pterodactilo", image: "./public/cards/b7.png" },
+    { id: 8, name: "Tethyshadros", image: "./public/cards/b8.png" },
+    { id: 9, name: "Tylosaurus", image: "./public/cards/b9.png" }
   ];
 
   var remainingCards = [];
   var drawnCards = [];
   var isDrawing = false;
+
+  var drawRunId = 0;
+  var activeTimers = [];
 
   var startScreen = document.getElementById("startScreen");
   var gameScreen = document.getElementById("gameScreen");
@@ -74,7 +41,48 @@
     return cards.slice();
   }
 
+  function clearTimers() {
+    for (var i = 0; i < activeTimers.length; i += 1) {
+      window.clearTimeout(activeTimers[i]);
+    }
+
+    activeTimers = [];
+  }
+
+  function schedule(callback, delay, runId) {
+    var timer = window.setTimeout(function () {
+      if (runId !== drawRunId) {
+        return;
+      }
+
+      callback();
+    }, delay);
+
+    activeTimers.push(timer);
+
+    return timer;
+  }
+
+  function forceRedraw() {
+    void selectionStage.offsetWidth;
+  }
+
+  function setStageState(stateClass) {
+    selectionStage.className = "selection-stage";
+
+    forceRedraw();
+
+    if (stateClass) {
+      selectionStage.classList.add(stateClass);
+    }
+
+    forceRedraw();
+  }
+
   function resetGame() {
+    drawRunId += 1;
+    clearTimers();
+
     remainingCards = copyCards();
     drawnCards = [];
     isDrawing = false;
@@ -82,12 +90,16 @@
     selectedImage.src = "";
     selectedImage.alt = "";
 
-    selectionStage.className = "selection-stage";
-    selectionMessage.textContent = "Presioná el botón para comenzar el sorteo.";
+    setStageState("");
+
+    selectionMessage.textContent =
+      "Presioná el botón para comenzar el sorteo.";
+
     drawButton.textContent = "ELEGIR TARJETA AL AZAR";
     drawButton.disabled = false;
 
     progressText.textContent = "Tarjeta 1 de 9";
+
     finishScreen.classList.add("hidden");
 
     renderHistory();
@@ -98,10 +110,12 @@
 
     for (var i = 0; i < cards.length; i += 1) {
       var slot = document.createElement("div");
+
       slot.className = "history-slot";
 
       if (drawnCards[i]) {
         var image = document.createElement("img");
+
         image.src = drawnCards[i].image;
         image.alt = drawnCards[i].name;
 
@@ -114,11 +128,14 @@
       historyGrid.appendChild(slot);
     }
 
-    historyCounter.textContent = drawnCards.length + " / " + cards.length;
+    historyCounter.textContent =
+      drawnCards.length + " / " + cards.length;
   }
 
   function getRandomCard() {
-    var randomIndex = Math.floor(Math.random() * remainingCards.length);
+    var randomIndex =
+      Math.floor(Math.random() * remainingCards.length);
+
     var selected = remainingCards[randomIndex];
 
     remainingCards.splice(randomIndex, 1);
@@ -126,14 +143,54 @@
     return selected;
   }
 
-  function clearStageAnimations() {
-    selectionStage.classList.remove(
-      "is-shuffling",
-      "is-approaching",
-      "is-revealed"
-    );
+  function showSelectedCard(selected) {
+    selectedImage.src = selected.image;
+    selectedImage.alt = selected.name;
 
-    void selectionStage.offsetWidth;
+    setStageState("is-revealed");
+
+    /* No mostramos “¡Salió...!” porque la tarjeta ya tiene el nombre. */
+    selectionMessage.textContent = "";
+  }
+
+  function finishDraw(selected, runId, state) {
+    if (
+      state.finished ||
+      runId !== drawRunId ||
+      !isDrawing
+    ) {
+      return;
+    }
+
+    state.finished = true;
+
+    clearTimers();
+
+    showSelectedCard(selected);
+
+    drawnCards.push(selected);
+    renderHistory();
+
+    isDrawing = false;
+
+    if (remainingCards.length > 0) {
+      drawButton.disabled = false;
+      drawButton.textContent = "ELEGIR TARJETA AL AZAR";
+
+      progressText.textContent =
+        "Tarjeta " +
+        (drawnCards.length + 1) +
+        " de " +
+        cards.length;
+    } else {
+      drawButton.disabled = true;
+      drawButton.textContent = "SORTEO COMPLETADO";
+      progressText.textContent = "9 tarjetas sorteadas";
+
+      schedule(function () {
+        finishScreen.classList.remove("hidden");
+      }, 800, runId);
+    }
   }
 
   function drawCard() {
@@ -141,58 +198,65 @@
       return;
     }
 
+    drawRunId += 1;
+
+    var runId = drawRunId;
+    var selected = null;
+    var state = {
+      finished: false
+    };
+
+    clearTimers();
+
     isDrawing = true;
     drawButton.disabled = true;
-
-    clearStageAnimations();
 
     selectedImage.src = "";
     selectedImage.alt = "";
 
-    selectionMessage.textContent = "La TARJETAS está girando...";
-    selectionStage.classList.add("is-shuffling");
+    selectionMessage.textContent = "Mezclando tarjetas...";
 
-    window.setTimeout(function () {
-      var selected = getRandomCard();
+    setStageState("is-shuffling");
 
-      selectionStage.classList.remove("is-shuffling");
-      selectionStage.classList.add("is-approaching");
+    schedule(function () {
+      if (!selected) {
+        selected = getRandomCard();
+      }
 
-      selectionMessage.textContent = "Una tarjeta está siendo seleccionada...";
+      setStageState("is-approaching");
 
-      window.setTimeout(function () {
-        selectedImage.src = selected.image;
-        selectedImage.alt = selected.name;
+      selectionMessage.textContent =
+        "Seleccionando una tarjeta...";
+    }, 1700, runId);
 
-        selectionStage.classList.remove("is-approaching");
-        selectionStage.classList.add("is-revealed");
+    schedule(function () {
+      if (!selected) {
+        selected = getRandomCard();
+      }
 
-        selectionMessage.textContent = "¡Salió " + selected.name + "!";
+      showSelectedCard(selected);
+    }, 2500, runId);
 
-        window.setTimeout(function () {
-          drawnCards.push(selected);
-          renderHistory();
+    schedule(function () {
+      if (!selected) {
+        selected = getRandomCard();
+      }
 
-          isDrawing = false;
+      finishDraw(selected, runId, state);
+    }, 3150, runId);
 
-          if (remainingCards.length > 0) {
-            drawButton.disabled = false;
-            drawButton.textContent = "ELEGIR TARJETA AL AZAR";
+    /*
+      Temporizador de seguridad para Windows 7.
+      Si el renderizado o la animación se congelan,
+      completa igualmente el sorteo.
+    */
+    schedule(function () {
+      if (!selected) {
+        selected = getRandomCard();
+      }
 
-            progressText.textContent =
-              "Tarjeta " + (drawnCards.length + 1) + " de " + cards.length;
-          } else {
-            drawButton.disabled = true;
-            drawButton.textContent = "SORTEO COMPLETADO";
-            progressText.textContent = "9 tarjetas sorteadas";
-
-            window.setTimeout(function () {
-              finishScreen.classList.remove("hidden");
-            }, 1200);
-          }
-        }, 950);
-      }, 850);
-    }, 2300);
+      finishDraw(selected, runId, state);
+    }, 4800, runId);
   }
 
   function startGame() {
@@ -211,6 +275,9 @@
       return;
     }
 
+    drawRunId += 1;
+    clearTimers();
+
     gameScreen.classList.add("hidden");
     finishScreen.classList.add("hidden");
     startScreen.classList.remove("hidden");
@@ -222,23 +289,26 @@
   resetButton.addEventListener("click", resetGame);
   playAgainButton.addEventListener("click", resetGame);
 
-
-
-  if ("serviceWorker" in navigator) {
+  /*
+    El Service Worker se registra solamente en la web.
+    Dentro del ejecutable se cargan todos los archivos localmente.
+  */
+  if (
+    (window.location.protocol === "http:" ||
+      window.location.protocol === "https:") &&
+    "serviceWorker" in navigator
+  ) {
     window.addEventListener("load", function () {
-      navigator.serviceWorker.register("./sw.js").catch(function (error) {
-        console.log("No se pudo registrar el modo sin conexión:", error);
-      });
+      navigator.serviceWorker
+        .register("./sw.js")
+        .catch(function (error) {
+          console.log(
+            "No se pudo registrar el modo sin conexión:",
+            error
+          );
+        });
     });
   }
 
   resetGame();
 })();
-
-
-
-
-
-
-
-

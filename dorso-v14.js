@@ -1,141 +1,20 @@
-﻿(function () {
+(function () {
     "use strict";
 
-    var imagePath = "./public/dorso-tarjeta-prehistorica.jpg?v=14";
+    var style = document.createElement("style");
 
-    function normalizar(texto) {
-        return (texto || "")
-            .replace(/["']/g, "")
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .trim()
-            .toUpperCase();
-    }
+    style.textContent = `
+        /*
+          El JPG se coloca solamente en las caras traseras
+          y en las tarjetas del mazo.
+        */
 
-    function encontrarTarjeta(elemento) {
-        var actual = elemento;
+        .card-back,
+        .back-card {
+            background-color: #0a2617 !important;
 
-        for (var i = 0; i < 6 && actual; i++) {
-            var rect = actual.getBoundingClientRect();
-
-            if (
-                rect.width >= 45 &&
-                rect.height >= 70 &&
-                rect.height > rect.width * 1.08
-            ) {
-                return actual;
-            }
-
-            actual = actual.parentElement;
-        }
-
-        return elemento.parentElement || elemento;
-    }
-
-    function colocarImagen(tarjeta) {
-        if (!tarjeta || tarjeta.dataset.dorsoJpg === "true") {
-            return;
-        }
-
-        tarjeta.dataset.dorsoJpg = "true";
-        tarjeta.classList.add("dorso-jpg-aplicado");
-
-        tarjeta.style.setProperty(
-            "background-image",
-            'url("' + imagePath + '")',
-            "important"
-        );
-
-        tarjeta.style.setProperty(
-            "background-position",
-            "center center",
-            "important"
-        );
-
-        tarjeta.style.setProperty(
-            "background-size",
-            "cover",
-            "important"
-        );
-
-        tarjeta.style.setProperty(
-            "background-repeat",
-            "no-repeat",
-            "important"
-        );
-
-        tarjeta.style.setProperty(
-            "background-color",
-            "#0b2818",
-            "important"
-        );
-
-        tarjeta.style.setProperty(
-            "border",
-            "none",
-            "important"
-        );
-
-        tarjeta.style.setProperty(
-            "color",
-            "transparent",
-            "important"
-        );
-
-        tarjeta.style.setProperty(
-            "font-size",
-            "0",
-            "important"
-        );
-    }
-
-    function aplicarDorsos() {
-        var elementos = document.querySelectorAll("body *");
-
-        elementos.forEach(function (elemento) {
-            var textoPropio = "";
-
-            if (elemento.children.length === 0) {
-                textoPropio = normalizar(elemento.textContent);
-            }
-
-            var before = normalizar(
-                getComputedStyle(elemento, "::before").content
-            );
-
-            var after = normalizar(
-                getComputedStyle(elemento, "::after").content
-            );
-
-            var contieneFosil =
-                textoPropio === "FOSIL" ||
-                before === "FOSIL" ||
-                after === "FOSIL";
-
-            if (!contieneFosil) {
-                return;
-            }
-
-            var tarjeta = encontrarTarjeta(elemento);
-
-            colocarImagen(tarjeta);
-
-            if (elemento !== tarjeta) {
-                elemento.style.setProperty(
-                    "display",
-                    "none",
-                    "important"
-                );
-            }
-        });
-    }
-
-    var estilos = document.createElement("style");
-
-    estilos.textContent = `
-        .dorso-jpg-aplicado {
             background-image:
-                url("./public/dorso-tarjeta-prehistorica.jpg?v=14")
+                url("./public/dorso-tarjeta-prehistorica.jpg")
                 !important;
 
             background-position: center center !important;
@@ -150,29 +29,128 @@
             overflow: hidden !important;
         }
 
-        .dorso-jpg-aplicado::before,
-        .dorso-jpg-aplicado::after {
+        /* Eliminar FÓSIL y decoraciones anteriores */
+
+        .card-back > *,
+        .back-card > * {
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+
+        .card-back::before,
+        .card-back::after,
+        .back-card::before,
+        .back-card::after {
             display: none !important;
             content: none !important;
         }
 
-        .dorso-jpg-aplicado > * {
+        /*
+          Cuando se revela la tarjeta:
+          ocultar completamente el dorso
+          y mostrar la imagen frontal.
+        */
+
+        .is-revealed .card-back {
+            display: none !important;
             opacity: 0 !important;
             visibility: hidden !important;
         }
+
+        .is-revealed .card-front {
+            display: flex !important;
+
+            width: 100% !important;
+            height: 100% !important;
+
+            opacity: 1 !important;
+            visibility: visible !important;
+
+            transform: none !important;
+            backface-visibility: visible !important;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .is-revealed .card-front > *,
+        .is-revealed .card-front img {
+            display: block !important;
+
+            width: 100% !important;
+            height: 100% !important;
+
+            opacity: 1 !important;
+            visibility: visible !important;
+
+            object-fit: contain !important;
+        }
+
+        /*
+          Limpiar cualquier aplicación anterior del JPG
+          sobre el contenedor principal.
+        */
+
+        .is-revealed .selected-card,
+        .is-revealed #selectedCard {
+            background-image: none !important;
+            background-color: transparent !important;
+        }
+
+        .is-revealed .selected-card > *,
+        .is-revealed #selectedCard > * {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .is-revealed .card-inner {
+            width: 100% !important;
+            height: 100% !important;
+
+            opacity: 1 !important;
+            visibility: visible !important;
+
+            transform-style: flat !important;
+        }
     `;
 
-    document.head.appendChild(estilos);
+    document.head.appendChild(style);
 
-    aplicarDorsos();
+    /*
+      Eliminar propiedades en línea que pudo dejar
+      la versión anterior de dorso-v14.js.
+    */
 
-    new MutationObserver(aplicarDorsos).observe(
+    function limpiarContenedores() {
+        var containers = document.querySelectorAll(
+            ".selected-card, #selectedCard"
+        );
+
+        containers.forEach(function (container) {
+            container.classList.remove("dorso-jpg-aplicado");
+
+            container.removeAttribute("data-dorso-jpg");
+
+            container.style.removeProperty("background-image");
+            container.style.removeProperty("background-position");
+            container.style.removeProperty("background-size");
+            container.style.removeProperty("background-repeat");
+            container.style.removeProperty("background-color");
+            container.style.removeProperty("color");
+            container.style.removeProperty("font-size");
+            container.style.removeProperty("border");
+        });
+    }
+
+    limpiarContenedores();
+
+    new MutationObserver(function () {
+        limpiarContenedores();
+    }).observe(
         document.body,
         {
             childList: true,
             subtree: true
         }
     );
-
-    window.setInterval(aplicarDorsos, 400);
 })();
